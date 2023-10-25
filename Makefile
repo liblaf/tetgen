@@ -3,7 +3,7 @@ NAME := tetgen
 SYSTEM  != python -c "import platform; print(platform.system().lower())"
 MACHINE != python -c "import platform; print(platform.machine().lower())"
 
-SRC_DIR      := tetgen1.6.0
+SRC_DIR  := tetgen1.6.0
 DIST_DIR := dist
 
 ifeq ($(SYSTEM), windows)
@@ -35,5 +35,5 @@ $(TARGET): tetgen1.6.0.tar.gz
 	$(MAKE) --directory=$(SRC_DIR)
 
 $(TARGET_DIST): $(TARGET)
-	@ mkdir -p -v $(@D)
-	@ cp -f -v $< $@
+	@ mkdir --parents --verbose $(@D)
+	@ install -D --no-target-directory --verbose $< $@
