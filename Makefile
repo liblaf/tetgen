@@ -6,7 +6,7 @@ MACHINE != python -c "import platform; print(platform.machine().lower())"
 SRC_DIR  := tetgen1.6.0
 DIST_DIR := dist
 
-ifeq ($(SYSTEM), windows)
+ifeq ($(SYSTEM),windows)
   EXE := .exe
 else
   EXE :=
@@ -23,9 +23,9 @@ clean:
 
 dist: $(TARGET_DIST)
 
-#####################
-# Auxiliary Targets #
-#####################
+###############
+# Auxiliaries #
+###############
 
 tetgen1.6.0.tar.gz:
 	wget --output-document=$@ https://wias-berlin.de/software/tetgen/1.5/src/$(@F)
@@ -35,5 +35,4 @@ $(TARGET): tetgen1.6.0.tar.gz
 	$(MAKE) --directory=$(SRC_DIR)
 
 $(TARGET_DIST): $(TARGET)
-	@ mkdir --parents --verbose $(@D)
 	@ install -D --no-target-directory --verbose $< $@
