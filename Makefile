@@ -2,15 +2,11 @@ NAME := tetgen
 
 SYSTEM  != python -c "import platform; print(platform.system().lower())"
 MACHINE != python -c "import platform; print(platform.machine().lower())"
+EXE     := $(if $(filter windows,$(SYSTEM)),.exe)
 
 SRC_DIR  := tetgen1.6.0
 DIST_DIR := dist
 
-ifeq ($(SYSTEM), windows)
-  EXE := .exe
-else
-  EXE :=
-endif
 TARGET      := $(SRC_DIR)/$(NAME)$(EXE)
 TARGET_DIST := $(DIST_DIR)/$(NAME)-$(SYSTEM)-$(MACHINE)$(EXE)
 
