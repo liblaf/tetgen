@@ -1,0 +1,44 @@
+version: "3"
+
+tasks:
+  clean:
+    cmds:
+      - git clean -d --force -X
+
+  download:
+    cmds:
+      - wget --output-document="tetgen1.6.0.tar.gz" "https://wias-berlin.de/software/tetgen/1.5/src/tetgen1.6.0.tar.gz"
+    generates:
+      - tetgen1.6.0.tar.gz
+    status:
+      - test -s "tetgen1.6.0.tar.gz"
+
+  extract:
+    cmds:
+      - tar --extract --file="tetgen1.6.0.tar.gz" --gzip
+    deps:
+      - download
+    sources:
+      - tetgen1.6.0.tar.gz
+    generates:
+      - tetgen1.6.0/**/*
+
+  build:
+    cmds:
+      - make --directory="tetgen1.6.0"
+    deps:
+      - extract
+    sources:
+      - tetgen1.6.0/**/*
+    generates:
+      - tetgen1.6.0/tetgen{{exeExt}}
+
+  dist:
+    cmds:
+      - install -D --no-target-directory --verbose "tetgen1.6.0/tetgen{{exeExt}}" "dist/tetgen-{{OS}}-{{ARCH}}{{exeExt}}"
+    deps:
+      - build
+    sources:
+      - tetgen1.6.0/tetgen{{exeExt}}
+    generates:
+      - dist/tetgen-{{OS}}-{{ARCH}}{{exeExt}}

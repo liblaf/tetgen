@@ -1,2 +1,4 @@
+.task
 *.tar.gz
+dist
 tetgen1.6.0
