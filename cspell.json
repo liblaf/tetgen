@@ -1,0 +1,14 @@
+{
+  "words": ["choco", "gomod", "liblaf"],
+  "ignorePaths": ["*-lock.*", "*.lock", "cspell.json"],
+  "dictionaries": [
+    "bash",
+    "cpp",
+    "cpp-legacy",
+    "cpp-refined",
+    "dotnet",
+    "makefile",
+    "npm"
+  ],
+  "allowCompoundWords": true
+}

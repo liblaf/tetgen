@@ -7,7 +7,7 @@ tasks:
 
   download:
     cmds:
-      - wget --output-document="tetgen1.6.0.tar.gz" "https://wias-berlin.de/software/tetgen/1.5/src/tetgen1.6.0.tar.gz"
+      - cmd: wget --output-document="tetgen1.6.0.tar.gz" "https://wias-berlin.de/software/tetgen/1.5/src/tetgen1.6.0.tar.gz"
     generates:
       - tetgen1.6.0.tar.gz
     status:
@@ -15,7 +15,7 @@ tasks:
 
   extract:
     cmds:
-      - tar --extract --file="tetgen1.6.0.tar.gz" --gzip
+      - cmd: tar --extract --file="tetgen1.6.0.tar.gz" --gzip --verbose
     deps:
       - download
     sources:
@@ -35,7 +35,7 @@ tasks:
 
   dist:
     cmds:
-      - install -D --no-target-directory --verbose "tetgen1.6.0/tetgen{{exeExt}}" "dist/tetgen-{{OS}}-{{ARCH}}{{exeExt}}"
+      - cmd: install -D --no-target-directory --verbose "tetgen1.6.0/tetgen{{exeExt}}" "dist/tetgen-{{OS}}-{{ARCH}}{{exeExt}}"
     deps:
       - build
     sources:
