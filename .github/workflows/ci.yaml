@@ -3,9 +3,6 @@ name: CI
 on:
   push:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-
 jobs:
   build:
     name: Build
@@ -13,18 +10,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Task
-        uses: arduino/setup-task@v2
-        with:
-          repo-token: ${{ github.token }}
-      - name: Install GNU Softwares
-        uses: liblaf/template/.github/actions/install@main
+      - name: Install Tools
+        uses: liblaf/repo/.github/actions/install@main
         with:
           brew: coreutils gnu-tar make wget
           choco: gnuwin32-coreutils.install make wget
       - name: Build
-        run: task dist
-      - name: Upload Artifact
+        run: make dist
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }}-${{ runner.arch }}
@@ -44,11 +37,14 @@ jobs:
       - build
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - id: version
-        name: Read Version
+        name: Get Version
         run: echo "version=$(cat version.txt)" >> "$GITHUB_OUTPUT"
       - name: Download Artifacts
         uses: actions/download-artifact@v4
@@ -56,8 +52,8 @@ jobs:
           path: artifacts
           merge-multiple: true
       - name: Create GitHub Release
-        uses: liblaf/template/.github/actions/release@main
+        uses: liblaf/repo/.github/actions/release@main
         with:
           tag: v${{ steps.version.outputs.version }}
-          files: |
-            artifacts/*
+          files: "artifacts/*"
+          recreate: true

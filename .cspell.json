@@ -1,0 +1,5 @@
+{
+  "words": ["bidi", "choco", "commitizen", "coreutils", "liblaf"],
+  "ignorePaths": [".cspell.json", "*-lock.*", "*.lock"],
+  "allowCompoundWords": true
+}
